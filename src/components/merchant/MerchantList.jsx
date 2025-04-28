@@ -1,11 +1,13 @@
-import { deleteData } from "../../services/api";
+import { deleteData, patchData } from "../../services/api";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash, FaTag } from "react-icons/fa";
+import { FaEdit, FaTrash, FaTag, FaSave, FaTimes } from "react-icons/fa";
 import "../../styles/MerchantList.css";
 import { useState } from "react";
 
 function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editName, setEditName] = useState("");
 
   const handleDelete = (id) => {
     deleteData(`merchants/${id}`)
@@ -22,15 +24,47 @@ function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
   };
 
   const confirmDelete = (e, id) => {
-    e.preventDefault(); // Prevent any form submission
+    e.preventDefault();
     e.stopPropagation();
     setDeleteConfirmId(id);
   };
 
   const cancelDelete = (e) => {
-    e.preventDefault(); // Prevent any form submission
+    e.preventDefault();
     e.stopPropagation();
     setDeleteConfirmId(null);
+  };
+
+  const startEditing = (merchant) => {
+    setEditingId(merchant.id);
+    setEditName(merchant.attributes.name);
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditName("");
+  };
+
+  const saveEdit = (id) => {
+    if (!editName.trim()) {
+      showStatus("Merchant name cannot be empty", false);
+      return;
+    }
+
+    const updatedData = {
+      name: editName.trim(),
+    };
+
+    patchData(`merchants/${id}`, updatedData)
+      .then((response) => {
+        onUpdate(response.data);
+        setEditingId(null);
+        showStatus("Merchant updated successfully!", true);
+      })
+      .catch((error) => {
+        console.error("Error updating merchant:", error);
+        showStatus("Failed to update merchant!", false);
+      });
   };
 
   return (
@@ -38,21 +72,35 @@ function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
       {merchants.map((merchant) => (
         <div className="merchant-item" key={merchant.id}>
           <div className="merchant-info">
-            <div className="merchant-name">{merchant.attributes.name}</div>
-            <div className="merchant-meta">
-              <div className="merchant-stat">
-                <span className="stat-icon">
-                  <FaTag />
-                </span>
-                <span>{merchant.attributes.coupons_count} coupons</span>
+            {editingId === merchant.id ? (
+              <div className="merchant-edit">
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="edit-input"
+                  autoFocus
+                />
               </div>
-              <div className="merchant-stat">
-                <span>
-                  {merchant.attributes.invoice_coupon_count} invoices with
-                  coupons
-                </span>
-              </div>
-            </div>
+            ) : (
+              <>
+                <div className="merchant-name">{merchant.attributes.name}</div>
+                <div className="merchant-meta">
+                  <div className="merchant-stat">
+                    <span className="stat-icon">
+                      <FaTag />
+                    </span>
+                    <span>{merchant.attributes.coupons_count} coupons</span>
+                  </div>
+                  <div className="merchant-stat">
+                    <span>
+                      {merchant.attributes.invoice_coupon_count} invoices with
+                      coupons
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="merchant-actions">
@@ -62,12 +110,30 @@ function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
             >
               Manage Coupons
             </Link>
-            <button
-              className="button btn-sm"
-              onClick={() => console.log("Edit", merchant.id)}
-            >
-              <FaEdit />
-            </button>
+
+            {editingId === merchant.id ? (
+              <>
+                <button
+                  className="button btn-sm"
+                  onClick={() => saveEdit(merchant.id)}
+                >
+                  <FaSave />
+                </button>
+                <button
+                  className="button button-secondary btn-sm"
+                  onClick={cancelEditing}
+                >
+                  <FaTimes />
+                </button>
+              </>
+            ) : (
+              <button
+                className="button btn-sm"
+                onClick={() => startEditing(merchant)}
+              >
+                <FaEdit />
+              </button>
+            )}
 
             {deleteConfirmId === merchant.id ? (
               <div className="delete-confirm">
