@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { postData } from "../../services/api";
-import ReusableForm from "../common/Form";
+import "../../styles/MerchantForm.css";
 
 function MerchantForm({ onSuccess, onCancel }) {
   const [name, setName] = useState("");
@@ -8,21 +8,15 @@ function MerchantForm({ onSuccess, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!name.trim()) {
-      setError("Merchant name is required");
-      return;
-    }
-
     const merchantData = {
-      name: name,
+      merchant: {
+        name,
+      },
     };
 
     postData("merchants", merchantData)
       .then((response) => {
         onSuccess(response.data);
-        setName("");
-        setError("");
       })
       .catch((error) => {
         console.error("Error creating merchant:", error);
@@ -32,24 +26,31 @@ function MerchantForm({ onSuccess, onCancel }) {
 
   return (
     <form className="merchant-form" onSubmit={handleSubmit}>
-      <h3>Add New Merchant</h3>
+      <h3 className="form-title">Add New Merchant</h3>
 
       {error && <div className="error-message">{error}</div>}
 
-      <ReusableForm
-        label="Merchant Name"
-        id="merchant-name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
+      <div className="form-group">
+        <label htmlFor="merchant-name">Merchant Name</label>
+        <input
+          type="text"
+          id="merchant-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
 
       <div className="form-actions">
-        <button type="submit" className="submit">
-          Add Merchant
-        </button>
-        <button type="button" className="cancel" onClick={onCancel}>
+        <button
+          type="button"
+          className="button button-secondary"
+          onClick={onCancel}
+        >
           Cancel
+        </button>
+        <button type="submit" className="button">
+          Add Merchant
         </button>
       </div>
     </form>

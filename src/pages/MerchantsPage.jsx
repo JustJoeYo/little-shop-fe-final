@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import MerchantList from "../components/merchant/MerchantList";
 import MerchantForm from "../components/merchant/MerchantForm";
 import { useFetch } from "../hooks/useApi";
+import "../styles/MerchantsPage.css";
 
 function MerchantsPage() {
   const [showForm, setShowForm] = useState(false);
@@ -14,14 +15,6 @@ function MerchantsPage() {
     loading,
     error,
   } = useFetch("merchants", showStatus);
-
-  if (loading) {
-    return <div className="loading">Loading merchants...</div>;
-  }
-
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
 
   const addMerchant = (newMerchant) => {
     setMerchants([...merchants, newMerchant]);
@@ -39,14 +32,20 @@ function MerchantsPage() {
     setMerchants(merchants.filter((merchant) => merchant.id !== id));
   };
 
+  if (loading) {
+    return <div className="loading">Loading merchants...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
   return (
-    <div>
-      <div className="display-options">
-        <h3>
-          Showing: <span>All Merchants</span>
-        </h3>
+    <div className="page-container">
+      <div className="page-header">
+        <h1>Merchant Management</h1>
         <button
-          className="add-new-button"
+          className={`button ${showForm ? "button-secondary" : ""}`}
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? "Cancel" : "+ Add New Merchant"}
@@ -54,22 +53,42 @@ function MerchantsPage() {
       </div>
 
       {showForm && (
-        <MerchantForm
-          onSuccess={(merchant) => {
-            addMerchant(merchant);
-            setShowForm(false);
-            showStatus("Merchant added successfully!", true);
-          }}
-          onCancel={() => setShowForm(false)}
-        />
+        <div className="card form-card">
+          <MerchantForm
+            onSuccess={(merchant) => {
+              addMerchant(merchant);
+              setShowForm(false);
+              showStatus("Merchant added successfully!", true);
+            }}
+            onCancel={() => setShowForm(false)}
+          />
+        </div>
       )}
 
-      <MerchantList
-        merchants={merchants}
-        onUpdate={updateMerchant}
-        onDelete={removeMerchant}
-        showStatus={showStatus}
-      />
+      <div className="card data-card">
+        <div className="data-header">
+          <h2>Merchant List</h2>
+          <div className="data-actions">
+            <input
+              type="text"
+              placeholder="Search merchants..."
+              className="search-input"
+            />
+            <select className="filter-select">
+              <option>All Merchants</option>
+              <option>With Coupons</option>
+              <option>Without Coupons</option>
+            </select>
+          </div>
+        </div>
+
+        <MerchantList
+          merchants={merchants}
+          onUpdate={updateMerchant}
+          onDelete={removeMerchant}
+          showStatus={showStatus}
+        />
+      </div>
     </div>
   );
 }

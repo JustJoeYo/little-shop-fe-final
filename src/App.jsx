@@ -3,7 +3,7 @@ import MainLayout from "./components/layout/MainLayout";
 import MerchantsPage from "./pages/MerchantsPage";
 import ItemsPage from "./pages/ItemsPage";
 import MerchantCouponsPage from "./pages/MerchantCouponsPage";
-import "./App.css";
+import "./styles/App.css";
 
 function App() {
   return (

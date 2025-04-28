@@ -1,24 +1,30 @@
 import { NavLink } from "react-router-dom";
+import { FaStore, FaBoxOpen } from "react-icons/fa";
+import "../../styles/Sidebar.css";
 
 function Sidebar() {
   return (
-    <aside>
-      <header>
+    <aside className="sidebar">
+      <div className="sidebar-header">
         <h1>Little Shop</h1>
-        <h2>admin portal</h2>
-      </header>
-      <nav>
+        <div className="sidebar-subtitle">Admin Portal</div>
+      </div>
+
+      <nav className="sidebar-nav">
         <NavLink
           to="/"
-          className={({ isActive }) => (isActive ? "active-nav" : "")}
+          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
         >
-          Merchants
+          <FaStore className="nav-icon" />
+          <span>Merchants</span>
         </NavLink>
+
         <NavLink
           to="/items"
-          className={({ isActive }) => (isActive ? "active-nav" : "")}
+          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
         >
-          Items
+          <FaBoxOpen className="nav-icon" />
+          <span>Items</span>
         </NavLink>
       </nav>
     </aside>
