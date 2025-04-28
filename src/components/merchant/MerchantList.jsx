@@ -2,25 +2,36 @@ import { deleteData } from "../../services/api";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash, FaTag } from "react-icons/fa";
 import "../../styles/MerchantList.css";
+import { useState } from "react";
 
 function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this merchant?")) {
-      deleteData(`merchants/${id}`)
-        .then(() => {
-          onDelete(id);
-          showStatus("Merchant deleted successfully!", true);
-        })
-        .catch((error) => {
-          console.error("Error deleting merchant:", error);
-          showStatus("Failed to delete merchant!", false);
-        });
-    }
+    deleteData(`merchants/${id}`)
+      .then(() => {
+        onDelete(id);
+        showStatus("Merchant deleted successfully!", true);
+        setDeleteConfirmId(null);
+      })
+      .catch((error) => {
+        console.error("Error deleting merchant:", error);
+        showStatus("Failed to delete merchant!", false);
+        setDeleteConfirmId(null);
+      });
   };
 
-  if (!merchants || merchants.length === 0) {
-    return <div className="empty-state">No merchants found</div>;
-  }
+  const confirmDelete = (e, id) => {
+    e.preventDefault(); // Prevent any form submission
+    e.stopPropagation();
+    setDeleteConfirmId(id);
+  };
+
+  const cancelDelete = (e) => {
+    e.preventDefault(); // Prevent any form submission
+    e.stopPropagation();
+    setDeleteConfirmId(null);
+  };
 
   return (
     <div className="merchant-list">
@@ -57,12 +68,31 @@ function MerchantList({ merchants, onUpdate, onDelete, showStatus }) {
             >
               <FaEdit />
             </button>
-            <button
-              className="button button-danger btn-sm"
-              onClick={() => handleDelete(merchant.id)}
-            >
-              <FaTrash />
-            </button>
+
+            {deleteConfirmId === merchant.id ? (
+              <div className="delete-confirm">
+                <span className="confirm-text">Delete?</span>
+                <button
+                  className="button button-danger btn-sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDelete(merchant.id);
+                  }}
+                >
+                  Yes
+                </button>
+                <button className="button btn-sm" onClick={cancelDelete}>
+                  No
+                </button>
+              </div>
+            ) : (
+              <button
+                className="button button-danger btn-sm"
+                onClick={(e) => confirmDelete(e, merchant.id)}
+              >
+                <FaTrash />
+              </button>
+            )}
           </div>
         </div>
       ))}

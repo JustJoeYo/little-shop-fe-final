@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import MerchantList from "../components/merchant/MerchantList";
 import MerchantForm from "../components/merchant/MerchantForm";
@@ -8,6 +8,9 @@ import "../styles/MerchantsPage.css";
 function MerchantsPage() {
   const [showForm, setShowForm] = useState(false);
   const { showStatus } = useOutletContext();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [couponFilter, setCouponFilter] = useState("all");
+  const [filteredMerchants, setFilteredMerchants] = useState([]);
 
   const {
     data: merchants,
@@ -15,6 +18,33 @@ function MerchantsPage() {
     loading,
     error,
   } = useFetch("merchants", showStatus);
+
+  useEffect(() => {
+    if (!merchants) return;
+
+    let result = [...merchants];
+
+    if (searchTerm.trim() !== "") {
+      result = result.filter((merchant) =>
+        merchant.attributes.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply coupon filter
+    if (couponFilter === "with") {
+      result = result.filter(
+        (merchant) => merchant.attributes.coupons_count > 0
+      );
+    } else if (couponFilter === "without") {
+      result = result.filter(
+        (merchant) => merchant.attributes.coupons_count === 0
+      );
+    }
+
+    setFilteredMerchants(result);
+  }, [merchants, searchTerm, couponFilter]);
 
   const addMerchant = (newMerchant) => {
     setMerchants([...merchants, newMerchant]);
@@ -30,6 +60,14 @@ function MerchantsPage() {
 
   const removeMerchant = (id) => {
     setMerchants(merchants.filter((merchant) => merchant.id !== id));
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFilterChange = (e) => {
+    setCouponFilter(e.target.value);
   };
 
   if (loading) {
@@ -73,22 +111,33 @@ function MerchantsPage() {
               type="text"
               placeholder="Search merchants..."
               className="search-input"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-            <select className="filter-select">
-              <option>All Merchants</option>
-              <option>With Coupons</option>
-              <option>Without Coupons</option>
+            <select
+              className="filter-select"
+              value={couponFilter}
+              onChange={handleFilterChange}
+            >
+              <option value="all">All Merchants</option>
+              <option value="with">With Coupons</option>
+              <option value="without">Without Coupons</option>
             </select>
           </div>
         </div>
 
         <div className="data-content">
           <MerchantList
-            merchants={merchants}
+            merchants={filteredMerchants}
             onUpdate={updateMerchant}
             onDelete={removeMerchant}
             showStatus={showStatus}
           />
+          {filteredMerchants.length === 0 && merchants.length > 0 && (
+            <div className="no-results">
+              No merchants match your search criteria.
+            </div>
+          )}
         </div>
       </div>
     </div>

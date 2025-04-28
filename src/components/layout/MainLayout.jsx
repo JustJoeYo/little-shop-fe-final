@@ -1,30 +1,27 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../common/Sidebar";
 import StatusMessage from "../common/StatusMessage";
-import { useState } from "react";
 
 function MainLayout() {
-  const [statusMessage, setStatusMessage] = useState({
+  const [status, setStatus] = useState({
     message: "",
-    isSuccess: false,
-    visible: false,
+    isSuccess: true,
+    show: false,
   });
 
-  const showStatus = (message, isSuccess) => {
-    setStatusMessage({ message, isSuccess, visible: true });
-    setTimeout(() => {
-      setStatusMessage((prev) => ({ ...prev, visible: false }));
-    }, 4000);
+  const showStatus = (message, isSuccess = true) => {
+    setStatus({ message, isSuccess, show: true });
   };
 
   return (
     <div className="app-container">
       <Sidebar />
       <main>
-        {statusMessage.visible && (
+        {status.show && (
           <StatusMessage
-            message={statusMessage.message}
-            isSuccess={statusMessage.isSuccess}
+            message={status.message}
+            isSuccess={status.isSuccess}
           />
         )}
         <Outlet context={{ showStatus }} />

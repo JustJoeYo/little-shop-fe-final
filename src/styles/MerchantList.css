@@ -62,6 +62,18 @@
   font-style: italic;
 }
 
+.delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.confirm-text {
+  color: var(--accent-error);
+  font-size: 0.8rem;
+  margin-right: var(--spacing-xs);
+}
+
 @media (min-width: 1600px) {
   :root {
     --content-max-width: 100%; /* Use full width */
