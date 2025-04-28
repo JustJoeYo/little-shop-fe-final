@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { postData } from "../../services/api";
+import ReusableForm from "../common/Form";
 
 function CouponForm({ merchantId, onSuccess, onCancel }) {
   const [formData, setFormData] = useState({
@@ -46,57 +47,49 @@ function CouponForm({ merchantId, onSuccess, onCancel }) {
 
       {error && <div className="error-message">{error}</div>}
 
-      <div className="form-group">
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <ReusableForm
+        label="Name"
+        id="name"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
 
-      <div className="form-group">
-        <label htmlFor="code">Code:</label>
-        <input
-          type="text"
-          id="code"
-          name="code"
-          value={formData.code}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <ReusableForm
+        label="Code"
+        id="code"
+        name="code"
+        value={formData.code}
+        onChange={handleChange}
+        required
+      />
 
-      <div className="form-group">
-        <label htmlFor="discount_type">Discount Type:</label>
-        <select
-          id="discount_type"
-          name="discount_type"
-          value={formData.discount_type}
-          onChange={handleChange}
-          required
-        >
-          <option value="percent">Percent Off</option>
-          <option value="dollar">Dollar Off</option>
-        </select>
-      </div>
+      <ReusableForm
+        label="Discount Type"
+        id="discount_type"
+        name="discount_type"
+        type="select"
+        value={formData.discount_type}
+        onChange={handleChange}
+        options={[
+          { value: "percent", label: "Percent Off" },
+          { value: "dollar", label: "Dollar Off" },
+        ]}
+        required
+      />
 
-      <div className="form-group">
-        <label htmlFor="discount_amount">Discount Amount:</label>
-        <input
-          type="number"
-          id="discount_amount"
-          name="discount_amount"
-          value={formData.discount_amount}
-          onChange={handleChange}
-          min="1"
-          step="0.01"
-          required
-        />
-      </div>
+      <ReusableForm
+        label="Discount Amount"
+        id="discount_amount"
+        name="discount_amount"
+        type="number"
+        value={formData.discount_amount}
+        onChange={handleChange}
+        min="1"
+        step="0.01"
+        required
+      />
 
       <div className="form-actions">
         <button type="submit" className="submit">

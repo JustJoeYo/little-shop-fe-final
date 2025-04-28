@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { postData } from "../../services/api";
+import ReusableForm from "../common/Form";
 
 function MerchantForm({ onSuccess, onCancel }) {
   const [name, setName] = useState("");
@@ -35,16 +36,13 @@ function MerchantForm({ onSuccess, onCancel }) {
 
       {error && <div className="error-message">{error}</div>}
 
-      <div className="form-group">
-        <label htmlFor="merchant-name">Merchant Name:</label>
-        <input
-          type="text"
-          id="merchant-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
+      <ReusableForm
+        label="Merchant Name"
+        id="merchant-name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
 
       <div className="form-actions">
         <button type="submit" className="submit">
