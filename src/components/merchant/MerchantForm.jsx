@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { postData } from "../../services/api";
-import "../../styles/MerchantForm.css";
+import ApiErrorMessage from "../common/ApiErrorMessage";
 
 function MerchantForm({ onSuccess, onCancel }) {
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!name.trim()) {
+      setError({ clientMessage: "Merchant name is required" });
+      return;
+    }
+
     const merchantData = {
       merchant: {
         name,
@@ -20,7 +26,7 @@ function MerchantForm({ onSuccess, onCancel }) {
       })
       .catch((error) => {
         console.error("Error creating merchant:", error);
-        setError("Failed to create merchant. Please try again.");
+        setError(error); // Store the error object
       });
   };
 
@@ -28,7 +34,12 @@ function MerchantForm({ onSuccess, onCancel }) {
     <form className="merchant-form" onSubmit={handleSubmit}>
       <h3 className="form-title">Add New Merchant</h3>
 
-      {error && <div className="error-message">{error}</div>}
+      {error &&
+        (error.clientMessage ? (
+          <div className="error-message">{error.clientMessage}</div>
+        ) : (
+          <ApiErrorMessage error={error} />
+        ))}
 
       <div className="form-group">
         <label htmlFor="merchant-name">Merchant Name</label>
