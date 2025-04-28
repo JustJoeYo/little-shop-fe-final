@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import MerchantList from "../components/merchant/MerchantList";
 import MerchantForm from "../components/merchant/MerchantForm";
-import { fetchData } from "../services/api";
+import { useFetch } from "../hooks/useApi";
 
 function MerchantsPage() {
-  const [merchants, setMerchants] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { showStatus } = useOutletContext();
 
-  useEffect(() => {
-    fetchData("merchants")
-      .then((response) => {
-        setMerchants(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching merchants:", error);
-        showStatus("Failed to load merchants", false);
-      });
-  }, []);
+  const {
+    data: merchants,
+    setData: setMerchants,
+    loading,
+    error,
+  } = useFetch("merchants", showStatus);
+
+  if (loading) {
+    return <div className="loading">Loading merchants...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
   const addMerchant = (newMerchant) => {
     setMerchants([...merchants, newMerchant]);
@@ -55,7 +58,7 @@ function MerchantsPage() {
           onSuccess={(merchant) => {
             addMerchant(merchant);
             setShowForm(false);
-            showStatus("Success! Merchant added!", true);
+            showStatus("Merchant added successfully!", true);
           }}
           onCancel={() => setShowForm(false)}
         />

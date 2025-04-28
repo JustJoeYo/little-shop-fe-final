@@ -1,27 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import CouponList from "../components/coupon/CouponList";
 import CouponForm from "../components/coupon/CouponForm";
-import { fetchData } from "../services/api";
+import { useFetch } from "../hooks/useApi";
 
 function MerchantCouponsPage() {
   const { merchantId } = useParams();
   const navigate = useNavigate();
   const { showStatus } = useOutletContext();
-
-  const [coupons, setCoupons] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
-  useEffect(() => {
-    fetchData(`merchants/${merchantId}/coupons`)
-      .then((response) => {
-        setCoupons(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching coupons:", error);
-        showStatus("Failed to load coupons", false);
-      });
-  }, [merchantId]);
+  const {
+    data: coupons,
+    setData: setCoupons,
+    loading,
+    error,
+  } = useFetch(`merchants/${merchantId}/coupons`, showStatus);
 
   const addCoupon = (newCoupon) => {
     setCoupons([...coupons, newCoupon]);
@@ -40,21 +33,31 @@ function MerchantCouponsPage() {
     );
   };
 
+  if (loading) {
+    return <div className="loading">Loading coupons...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
   return (
     <div>
       <div className="display-options">
         <h3>
-          <span>Coupons for Merchant #{merchantId}</span>
+          Showing: <span>Coupons for Merchant #{merchantId}</span>
+        </h3>
+        <div className="button-group">
           <button className="back-button" onClick={() => navigate("/")}>
             Back to Merchants
           </button>
-        </h3>
-        <button
-          className="add-new-button"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "Cancel" : "+ Add New Coupon"}
-        </button>
+          <button
+            className="add-new-button"
+            onClick={() => setShowForm(!showForm)}
+          >
+            {showForm ? "Cancel" : "+ Add New Coupon"}
+          </button>
+        </div>
       </div>
 
       {showForm && (
@@ -63,7 +66,7 @@ function MerchantCouponsPage() {
           onSuccess={(coupon) => {
             addCoupon(coupon);
             setShowForm(false);
-            showStatus("Success! Coupon added!", true);
+            showStatus("Coupon created successfully!", true);
           }}
           onCancel={() => setShowForm(false)}
         />
