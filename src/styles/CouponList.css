@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   transition: transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast), border-left-color 0.3s ease;
   height: 100%;
   min-height: 160px;
   border-left: 4px solid transparent;
@@ -52,23 +52,57 @@
   font-size: 1.5rem;
   display: flex;
   align-items: center;
+  position: relative; /* For the animation overlay */
+  overflow: hidden; /* Contain ripple effect */
+}
+
+.coupon-status:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.coupon-status:active:after {
+  opacity: 1;
+  transform: scale(1.5);
+  transition: opacity 0.1s, transform 0.1s;
 }
 
 .status-icon {
   font-size: 1.5rem;
-  transition: color var(--transition-fast);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, color;
 }
 
 .status-icon.active {
   color: var(--accent-success);
+  transform: rotate(0deg);
 }
 
 .status-icon.inactive {
   color: var(--text-secondary);
+  transform: rotate(-180deg);
+}
+
+.coupon-status:hover .status-icon {
+  transform: scale(1.15) translateY(-2px);
+}
+
+.coupon-status:hover .status-icon.inactive {
+  transform: scale(1.15) translateY(-2px) rotate(-180deg);
 }
 
 .coupon-code {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.08); /* Slightly more contrast */
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   margin-bottom: var(--spacing-md);
@@ -88,7 +122,8 @@
 .code-value {
   font-weight: 600;
   letter-spacing: 1px;
-  color: var(--primary-light);
+  color: #ead6ff;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .coupon-discount {
@@ -99,11 +134,6 @@
   align-items: center;
   gap: 8px;
   margin-bottom: var(--spacing-md);
-}
-
-.discount-icon {
-  font-size: 0.9rem;
-  opacity: 0.8;
 }
 
 .coupon-footer {

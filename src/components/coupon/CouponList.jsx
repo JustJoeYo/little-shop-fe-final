@@ -27,7 +27,10 @@ function CouponList({
     );
   }
 
-  const handleStatusToggle = (coupon) => {
+  const handleStatusToggle = (e, coupon) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const newStatus =
       coupon.attributes.status === "active" ? "inactive" : "active";
 
@@ -104,7 +107,7 @@ function CouponList({
               <h3 className="coupon-name">{coupon.attributes.name}</h3>
               <div
                 className="coupon-status"
-                onClick={() => handleStatusToggle(coupon)}
+                onClick={(e) => handleStatusToggle(e, coupon)}
               >
                 {coupon.attributes.status === "active" ? (
                   <FaToggleOn
@@ -126,13 +129,6 @@ function CouponList({
             </div>
 
             <div className="coupon-discount">
-              <span className="discount-icon">
-                {coupon.attributes.discount_type === "percent" ? (
-                  <FaPercent />
-                ) : (
-                  <FaDollarSign />
-                )}
-              </span>
               <span className="discount-value">{formatDiscount(coupon)}</span>
             </div>
 
