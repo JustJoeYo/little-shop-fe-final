@@ -1,8 +1,14 @@
 .merchant-list {
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  gap: var(--spacing-md);
 }
 
 .merchant-item {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
   background-color: var(--bg-elevated);
   border-radius: var(--radius-sm);
   padding: var(--spacing-md);
@@ -54,4 +60,20 @@
   padding: var(--spacing-xl);
   color: var(--text-secondary);
   font-style: italic;
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --content-max-width: 100%; /* Use full width */
+  }
+
+  /* Keep sidebar a reasonable width */
+  :root {
+    --sidebar-width: 230px;
+  }
+
+  /* Add some padding on very wide screens for readability */
+  .page-container {
+    padding: 0 var(--spacing-xl);
+  }
 }

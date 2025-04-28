@@ -69,7 +69,7 @@
 .nav-item.active {
   color: var(--primary-light);
   border-left-color: var(--primary);
-  background-color: rgba(46, 26, 71, 0.1);
+  background-color: rgba(46, 26, 71, 0.3);
 }
 
 .nav-icon {

@@ -82,12 +82,14 @@ function MerchantsPage() {
           </div>
         </div>
 
-        <MerchantList
-          merchants={merchants}
-          onUpdate={updateMerchant}
-          onDelete={removeMerchant}
-          showStatus={showStatus}
-        />
+        <div className="data-content">
+          <MerchantList
+            merchants={merchants}
+            onUpdate={updateMerchant}
+            onDelete={removeMerchant}
+            showStatus={showStatus}
+          />
+        </div>
       </div>
     </div>
   );
