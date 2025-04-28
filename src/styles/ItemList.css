@@ -83,6 +83,7 @@
 .item-actions {
   display: flex;
   gap: var(--spacing-xs);
+  min-height: 30px;
 }
 
 .btn-sm {
@@ -100,4 +101,16 @@
   .item-grid {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   }
+}
+
+.delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.confirm-text {
+  color: var(--accent-error);
+  font-size: 0.8rem;
+  margin-right: var(--spacing-xs);
 }
