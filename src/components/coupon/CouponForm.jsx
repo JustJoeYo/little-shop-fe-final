@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { postData } from "../../services/api";
 import ReusableForm from "../common/Form";
+import ApiErrorMessage from "../common/ApiErrorMessage";
 
-function CouponForm({ merchantId, onSuccess, onCancel }) {
+function CouponForm({ merchantId, onSuccess, onCancel, showStatus }) {
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -11,7 +12,7 @@ function CouponForm({ merchantId, onSuccess, onCancel }) {
     status: "active",
   });
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,9 +22,8 @@ function CouponForm({ merchantId, onSuccess, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Form validation
     if (!formData.name || !formData.code || !formData.discount_amount) {
-      setError("Please fill out all required fields");
+      setError({ clientMessage: "Please fill out all required fields" });
       return;
     }
 
@@ -37,7 +37,13 @@ function CouponForm({ merchantId, onSuccess, onCancel }) {
       })
       .catch((error) => {
         console.error("Error creating coupon:", error);
-        setError("Failed to create coupon. Please try again.");
+        setError(error); // store it
+
+        // Check if showStatus exists before using it
+        const errorMessage = error.serverMessage || "Failed to create coupon";
+        if (typeof showStatus === "function") {
+          showStatus(errorMessage, false);
+        }
       });
   };
 
@@ -45,7 +51,12 @@ function CouponForm({ merchantId, onSuccess, onCancel }) {
     <form className="coupon-form" onSubmit={handleSubmit}>
       <h3>Add New Coupon</h3>
 
-      {error && <div className="error-message">{error}</div>}
+      {error &&
+        (error.clientMessage ? (
+          <div className="error-message">{error.clientMessage}</div>
+        ) : (
+          <ApiErrorMessage error={error} />
+        ))}
 
       <ReusableForm
         label="Name"

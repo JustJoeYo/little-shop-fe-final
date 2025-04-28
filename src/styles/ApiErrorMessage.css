@@ -1,0 +1,12 @@
+.api-error {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  background-color: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid var(--accent-error);
+  margin-bottom: var(--spacing-md);
+}
+
+.api-error-message {
+  color: var(--accent-error);
+  font-size: 0.9rem;
+}

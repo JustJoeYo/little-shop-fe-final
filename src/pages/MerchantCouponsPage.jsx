@@ -69,6 +69,7 @@ function MerchantCouponsPage() {
             showStatus("Coupon created successfully!", true);
           }}
           onCancel={() => setShowForm(false)}
+          showStatus={showStatus}
         />
       )}
 
