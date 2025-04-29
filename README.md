@@ -13,22 +13,41 @@
 Joe's [![Joe's LinkedIn][linkedin-shield]][linkedin-url]
 
 ### Abstract:
-(Briefly describe what you built and its features. What problem is the app solving? How does this application solve that problem?)
+Little shop is an admin portal that has an interface for an ecommerce platorm for our merchants. They can add and edit items and gives them a realtime visualization of the database. It comes with a search functionality and sort functions to help organize the view. Our app is solving the problem of letting the merchants manage their items from this portal in an easy user friendly way.
 
 ### Installation Instructions:
-(What steps does a person have to take to get your app cloned down and running?)
+1. Clone the repository:
+`git clone https://github.com/JustJoeYo/little-shop-fe.git
+cd little-shop-fe`
+
+2. Install dependencies:
+`npm install`
+
+3. Start the development server:
+`npm run dev`
+
+4. Ensure the backend API is running at the expected endpoint
+
+5. Access the application at http://localhost:5173
 
 ### Preview of App:
-(Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off. gifs preferred!)
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYm0zOGQ5cW80ZjBqOTBkZHI1ejhweDdrcXNmeDIxbGtyM2Jsa2o4NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UYCn3cJROy8r8bMD5P/giphy.gif" alt="image" height="612" width="960" />
 
 ### Context:
-(Give some context for the project here. How long did you have to work on it? What specific work/improvements did you contribute to this FE application?)
+I worked on this project over a span of 6 days, during which we introduced a redesigned frontend that significantly improved upon the original and now uses react. The updated design added new features like a search bar and sorting options, and included refreshed styling to enhance readability and create a cleaner, more user-friendly interface, also added some filtering options for ease of use.
 
 ### Learning Goals:
-(What were the learning goals of this project? What tech did you work with?)
+* Write migrations to create tables and relationships between tables
+* Implement CRUD functionality for a resource
+* Use MVC to organize code effectively, limiting the amount of logic included in serializers and controllers
+* Use built-in ActiveRecord methods to join tables of data, make calculations, and group data based on one or more attributes
+* Write model tests that fully cover the data logic of the application
+* Write request tests that fully cover the functionality of the application
+* Display data for users in a frontend application by targeting DOM elements
 
 ### Wins + Challenges:
-(What are 2-3 wins you have from this project? What were some challenges you faced - and how did you get over them?)
+Wins: Getting the backend working with our postman tests and succesfully getting the backend and frontend working together as well as learning to use axios for api requests.
+A challenge I faced was having the page refresh after each fetch/request made to the backend after submitting new items/merchants/coupons. I overcame this by preventing default/using some other logical changes that ensured the page didn't need to be refreshed.
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/JustJoeYo/futbol.svg?style=for-the-badge
