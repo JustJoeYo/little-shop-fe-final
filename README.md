@@ -1,12 +1,30 @@
-# React + Vite
+# Hang in There  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<a href="https://github.com/JustJoeYo">
+  <img src="https://avatars.githubusercontent.com/u/53631725?v=4" alt="contrib.rocks image" width="128" height="128" />
+</a>
+Joe's [![Joe's LinkedIn][linkedin-shield]][linkedin-url]
 
-Currently, two official plugins are available:
+### Abstract:
+(Briefly describe what you built and its features. What problem is the app solving? How does this application solve that problem?)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation Instructions:
+(What steps does a person have to take to get your app cloned down and running?)
 
-## Expanding the ESLint configuration
+### Preview of App:
+(Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off. gifs preferred!)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Context:
+(Give some context for the project here. How long did you have to work on it? What specific work/improvements did you contribute to this FE application?)
+
+### Learning Goals:
+(What were the learning goals of this project? What tech did you work with?)
+
+### Wins + Challenges:
+(What are 2-3 wins you have from this project? What were some challenges you faced - and how did you get over them?)
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/JustJoeYo/little-shop-fe-final.svg?style=for-the-badge
+[contributors-url]: https://github.com/JustJoeYo/little-shop-fe-final/graphs/contributors
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/joseph-samere-981a5b291/
