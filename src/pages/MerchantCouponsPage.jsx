@@ -3,7 +3,6 @@ import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { useFetch } from "../hooks/useApi";
 import CouponList from "../components/coupon/CouponList";
 import CouponForm from "../components/coupon/CouponForm";
-import ApiErrorMessage from "../components/common/ApiErrorMessage";
 import "../styles/MerchantCouponsPage.css";
 
 function MerchantCouponsPage() {
@@ -62,10 +61,6 @@ function MerchantCouponsPage() {
         coupon.id === updatedCoupon.id ? updatedCoupon : coupon
       )
     );
-  };
-
-  const deleteCoupon = (id) => {
-    setCoupons(coupons.filter((coupon) => coupon.id !== id));
   };
 
   if (loading) {
