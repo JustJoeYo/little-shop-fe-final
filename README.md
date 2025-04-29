@@ -31,7 +31,7 @@ cd little-shop-fe`
 5. Access the application at http://localhost:5173
 
 ### Preview of App:
-<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYm0zOGQ5cW80ZjBqOTBkZHI1ejhweDdrcXNmeDIxbGtyM2Jsa2o4NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UYCn3cJROy8r8bMD5P/giphy.gif" alt="image" height="612" width="960" />
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdlNnlvN3dhOGMwbnlxdmcxb2FqdTBmandjNHN4OGFqZ2d4bTFpaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/N4R7JoJcBYvcRa9THG/giphy.gif" alt="image" height="612" width="960" />
 
 ### Context:
 I worked on this project over a span of 6 days, during which we introduced a redesigned frontend that significantly improved upon the original and now uses react. The updated design added new features like a search bar and sorting options, and included refreshed styling to enhance readability and create a cleaner, more user-friendly interface, also added some filtering options for ease of use.
