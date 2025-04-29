@@ -148,7 +148,6 @@ function MerchantCouponsPage() {
             coupons={filteredCoupons}
             merchantId={merchantId}
             onStatusChange={updateCouponStatus}
-            onDelete={deleteCoupon}
             showStatus={showStatus}
           />
           {filteredCoupons.length === 0 && coupons.length > 0 && (

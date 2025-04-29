@@ -52,8 +52,8 @@
   font-size: 1.5rem;
   display: flex;
   align-items: center;
-  position: relative; /* For the animation overlay */
-  overflow: hidden; /* Contain ripple effect */
+  position: relative;
+  overflow: hidden;
 }
 
 .coupon-status:after {
@@ -102,7 +102,7 @@
 }
 
 .coupon-code {
-  background-color: rgba(255, 255, 255, 0.08); /* Slightly more contrast */
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   margin-bottom: var(--spacing-md);
@@ -144,7 +144,41 @@
 }
 
 .coupon-stats {
+  width: 100%;
   font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.usage-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.usage-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 70px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.active-status {
+  color: var(--accent-success);
+}
+
+.inactive-status {
   color: var(--text-secondary);
 }
 

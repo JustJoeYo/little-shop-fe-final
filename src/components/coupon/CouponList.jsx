@@ -1,24 +1,10 @@
 import { useState } from "react";
-import {
-  FaToggleOn,
-  FaToggleOff,
-  FaEdit,
-  FaTrash,
-  FaPercent,
-  FaDollarSign,
-} from "react-icons/fa";
-import { patchData, deleteData } from "../../services/api";
+import { FaToggleOn, FaToggleOff } from "react-icons/fa";
+import { patchData } from "../../services/api";
 import "../../styles/CouponList.css";
 import ApiErrorMessage from "../common/ApiErrorMessage";
 
-function CouponList({
-  coupons,
-  merchantId,
-  onStatusChange,
-  onDelete,
-  showStatus,
-}) {
-  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+function CouponList({ coupons, merchantId, onStatusChange, showStatus }) {
   const [error, setError] = useState(null);
 
   if (!coupons || coupons.length === 0) {
@@ -33,18 +19,14 @@ function CouponList({
 
     const newStatus =
       coupon.attributes.status === "active" ? "inactive" : "active";
+    const statusMessage = newStatus === "active" ? "activated" : "deactivated";
 
     patchData(`merchants/${merchantId}/coupons/${coupon.id}`, {
       status: newStatus,
     })
       .then((response) => {
         onStatusChange(response.data);
-        showStatus(
-          `Coupon ${
-            newStatus === "active" ? "activated" : "deactivated"
-          } successfully!`,
-          true
-        );
+        showStatus(`Coupon ${statusMessage} successfully!`, true);
       })
       .catch((error) => {
         console.error("Error updating coupon status:", error);
@@ -53,32 +35,6 @@ function CouponList({
           error.serverMessage || "Failed to update coupon status",
           false
         );
-      });
-  };
-
-  const confirmDelete = (e, id) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDeleteConfirmId(id);
-  };
-
-  const cancelDelete = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDeleteConfirmId(null);
-  };
-
-  const handleDelete = (id) => {
-    deleteData(`merchants/${merchantId}/coupons/${id}`)
-      .then(() => {
-        onDelete(id);
-        setDeleteConfirmId(null);
-        showStatus("Coupon deleted successfully!", true);
-      })
-      .catch((error) => {
-        console.error("Error deleting coupon:", error);
-        setError(error);
-        showStatus(error.serverMessage || "Failed to delete coupon", false);
       });
   };
 
@@ -134,38 +90,30 @@ function CouponList({
 
             <div className="coupon-footer">
               <div className="coupon-stats">
-                <span>
-                  Uses: {coupon.attributes.count_successful_uses || 0}
-                </span>
-              </div>
-
-              <div className="coupon-actions">
-                {deleteConfirmId === coupon.id ? (
-                  <div className="delete-confirm">
-                    <span className="confirm-text">Delete?</span>
-                    <button
-                      className="button button-danger btn-sm"
-                      onClick={() => handleDelete(coupon.id)}
-                    >
-                      Yes
-                    </button>
-                    <button className="button btn-sm" onClick={cancelDelete}>
-                      No
-                    </button>
+                <div className="usage-stats">
+                  <div className="usage-stat">
+                    <span className="stat-label">Total Uses:</span>
+                    <span className="stat-value">
+                      {coupon.attributes.count_successful_uses || 0}
+                    </span>
                   </div>
-                ) : (
-                  <>
-                    <button className="button btn-sm">
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="button button-danger btn-sm"
-                      onClick={(e) => confirmDelete(e, coupon.id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </>
-                )}
+
+                  {coupon.attributes.status === "active" && (
+                    <div className="usage-stat">
+                      <span className="stat-label">Status:</span>
+                      <span className="stat-value active-status">Active</span>
+                    </div>
+                  )}
+
+                  {coupon.attributes.status === "inactive" && (
+                    <div className="usage-stat">
+                      <span className="stat-label">Status:</span>
+                      <span className="stat-value inactive-status">
+                        Inactive
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
