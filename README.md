@@ -1,8 +1,15 @@
 # Hang in There  
 
+<a href="https://github.com/JustJoeYo/little-shop-be-final">
+  link to backend
+</a>
+
+### Contributors:
+
 <a href="https://github.com/JustJoeYo">
   <img src="https://avatars.githubusercontent.com/u/53631725?v=4" alt="contrib.rocks image" width="128" height="128" />
 </a>
+
 Joe's [![Joe's LinkedIn][linkedin-shield]][linkedin-url]
 
 ### Abstract:
@@ -24,7 +31,7 @@ Joe's [![Joe's LinkedIn][linkedin-shield]][linkedin-url]
 (What are 2-3 wins you have from this project? What were some challenges you faced - and how did you get over them?)
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/JustJoeYo/little-shop-fe-final.svg?style=for-the-badge
-[contributors-url]: https://github.com/JustJoeYo/little-shop-fe-final/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/JustJoeYo/futbol.svg?style=for-the-badge
+[contributors-url]: https://github.com/JustJoeYo/futbol/graphs/contributors
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/joseph-samere-981a5b291/
